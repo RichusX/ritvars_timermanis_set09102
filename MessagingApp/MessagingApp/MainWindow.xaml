@@ -6,12 +6,14 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="MsgHeaderBox" HorizontalAlignment="Left" Height="23" Margin="87,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="339" ToolTip="Message Header"/>
-        <TextBox x:Name="MsgBodyBox" HorizontalAlignment="Left" Height="201" Margin="87,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="339"/>
+        <TextBox x:Name="MsgHeaderBox" HorizontalAlignment="Left" Height="23" Margin="87,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="339" ToolTip="Message Header" TextChanged="MsgHeaderBox_TextChanged"/>
+        <TextBox x:Name="MsgBodyBox" HorizontalAlignment="Left" Height="201" Margin="87,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="339"/>
         <TextBlock x:Name="MsgHeaderLabel" HorizontalAlignment="Left" Margin="31,39,0,0" TextWrapping="Wrap" Text="Sender" VerticalAlignment="Top"/>
-        <TextBlock x:Name="MsgBodyLabel" HorizontalAlignment="Left" Margin="41,67,0,0" TextWrapping="Wrap" Text="Body" VerticalAlignment="Top"/>
-        <Button x:Name="SendBtn" Content="Send" HorizontalAlignment="Left" Margin="351,284,0,0" VerticalAlignment="Top" Width="75" Click="SendBtn_Click"/>
-        <Button x:Name="ClearBtn" Content="Clear" HorizontalAlignment="Left" Margin="262,284,0,0" VerticalAlignment="Top" Width="75" Click="ClearBtn_Click"/>
+        <TextBlock x:Name="MsgBodyLabel" HorizontalAlignment="Left" Margin="41,95,0,0" TextWrapping="Wrap" Text="Body" VerticalAlignment="Top"/>
+        <Button x:Name="SendBtn" Content="Send" HorizontalAlignment="Left" Margin="351,310,0,0" VerticalAlignment="Top" Width="75" Click="SendBtn_Click" IsDefault="True"/>
+        <Button x:Name="ClearBtn" Content="Clear" HorizontalAlignment="Left" Margin="262,310,0,0" VerticalAlignment="Top" Width="75" Click="ClearBtn_Click"/>
+        <TextBox x:Name="MsgSubjectBox" HorizontalAlignment="Left" Height="23" Margin="87,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="339" ToolTip="Message Header" TextChanged="MsgHeaderBox_TextChanged" Visibility="Hidden"/>
+        <TextBlock x:Name="MsgSubjectLabel" HorizontalAlignment="Left" Margin="31,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Visibility="Hidden"><Run Language="en-gb" Text="Subject"/><LineBreak/><Run Language="en-gb"/></TextBlock>
 
     </Grid>
 </Window>
