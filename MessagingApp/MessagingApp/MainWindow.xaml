@@ -1,0 +1,17 @@
+﻿<Window x:Class="MessagingApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="388.264" Width="469.134">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="MsgHeaderBox" HorizontalAlignment="Left" Height="23" Margin="87,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="339" ToolTip="Message Header"/>
+        <TextBox x:Name="MsgBodyBox" HorizontalAlignment="Left" Height="201" Margin="87,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="339"/>
+        <TextBlock x:Name="MsgHeaderLabel" HorizontalAlignment="Left" Margin="31,39,0,0" TextWrapping="Wrap" Text="Sender" VerticalAlignment="Top"/>
+        <TextBlock x:Name="MsgBodyLabel" HorizontalAlignment="Left" Margin="41,67,0,0" TextWrapping="Wrap" Text="Body" VerticalAlignment="Top"/>
+        <Button x:Name="SendBtn" Content="Send" HorizontalAlignment="Left" Margin="351,284,0,0" VerticalAlignment="Top" Width="75" Click="SendBtn_Click"/>
+        <Button x:Name="ClearBtn" Content="Clear" HorizontalAlignment="Left" Margin="262,284,0,0" VerticalAlignment="Top" Width="75" Click="ClearBtn_Click"/>
+
+    </Grid>
+</Window>
