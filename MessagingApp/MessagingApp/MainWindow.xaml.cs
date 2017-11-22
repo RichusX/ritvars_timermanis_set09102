@@ -51,13 +51,18 @@ namespace MessagingApp
             Match smsResult = Regex.Match(header, headerSmsPattern);
             Match emailResult = Regex.Match(header, headerEmailPattern);
 
+            MessageBox.Show("Recent Tweet ID: "+ ID.getRecent(0)+"\nRecent SMS ID: "+ ID.getRecent(1)+"\nRecent E-Mail ID: "+ ID.getRecent(2));
+
             if (tweetResult.Success)
             {
 
                 if (body.Length > 0 && body.Length <= 140)
                 {
                     // length is between 1 and 140 ( all gucci! )
-                    MessageBox.Show("Woohoo, that's a valid tweet!");
+                    
+                    Message tweet = new Message(ID.newID(ID.getRecent(0)), header, subject, body);
+                    json.messages.Add(tweet);
+                    writeJsonToFile();
                 }
                 else
                 {
@@ -78,7 +83,9 @@ namespace MessagingApp
                 if (body.Length > 0 && body.Length <= 140)
                 {
                     // length is between 1 and 140 ( all gucci! )
-                    MessageBox.Show("Woohoo, that's a valid SMS!");
+                    Message sms = new Message(ID.newID(ID.getRecent(1)), header, subject, body);
+                    json.messages.Add(sms);
+                    writeJsonToFile();
                 }
                 else
                 {
@@ -98,10 +105,15 @@ namespace MessagingApp
                 {
                     if (subject.Length > 0 && subject.Length <= 20)
                     {
-                        MessageBox.Show("Woohoo, that's a valid email!");
                         if (subject.StartsWith("SIR")) // Check if SIR email
                         {
                             MessageBox.Show("That's an SIR email!");
+                        }
+                        else // Normal email
+                        {
+                            Message email = new Message(ID.newID(ID.getRecent(2)), header, subject, body);
+                            json.messages.Add(email);
+                            writeJsonToFile();
                         }
 
                     }
@@ -156,6 +168,10 @@ namespace MessagingApp
             //{
             //    Debug.Print("ID: {0}\nSender: {1}\nSubject: {2}\nMessage: {3}\n", i.ID, i.sender, i.subject, i.message);
             //}
+        }
+        private void writeJsonToFile()
+        {
+            File.WriteAllText(@"messages.json", JsonConvert.SerializeObject(json));
         }
     }
 }
