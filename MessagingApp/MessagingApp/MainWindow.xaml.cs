@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions; // Regex
+using System.IO;
+using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace MessagingApp
 {
@@ -23,6 +26,11 @@ namespace MessagingApp
     {
         public string header;
         public string body;
+        public string subject;
+
+        public static RootObject json = JsonConvert.DeserializeObject<RootObject>(File.ReadAllText(@"messages.json"));
+
+        public string messagesJSON;
 
         string headerTwitterPattern = @"^@(\w+)";
         string headerSmsPattern = @"^(((\+44\s?\d{4}|\(?0\d{4}\)?)\s?\d{3}\s?\d{3})|((\+44\s?\d{3}|\(?0\d{3}\)?)\s?\d{3}\s?\d{4})|((\+44\s?\d{2}|\(?0\d{2}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$";
@@ -36,6 +44,7 @@ namespace MessagingApp
         private void SendBtn_Click(object sender, RoutedEventArgs e)
         {
             header = MsgHeaderBox.Text;
+            subject = MsgSubjectBox.Text;
             body = MsgBodyBox.Text;
 
             Match tweetResult = Regex.Match(header, headerTwitterPattern);
@@ -87,9 +96,14 @@ namespace MessagingApp
             {
                 if (body.Length > 0 && body.Length <= 1028)
                 {
-                    if (MsgSubjectBox.Text.Length > 0 && MsgSubjectBox.Text.Length <= 20)
+                    if (subject.Length > 0 && subject.Length <= 20)
                     {
                         MessageBox.Show("Woohoo, that's a valid email!");
+                        if (subject.StartsWith("SIR")) // Check if SIR email
+                        {
+                            MessageBox.Show("That's an SIR email!");
+                        }
+
                     }
                     else
                     {
@@ -126,6 +140,22 @@ namespace MessagingApp
                 MsgSubjectBox.Visibility = System.Windows.Visibility.Hidden;
                 MsgSubjectLabel.Visibility = System.Windows.Visibility.Hidden;
             }
+        }
+
+        private void ViewMsgBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ViewMessages viewMessages = new ViewMessages();
+
+            viewMessages.Show();
+        }
+
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            //RootObject json = JsonConvert.DeserializeObject<RootObject>(File.ReadAllText(@"messages.json"));
+            //foreach (var i in json.messages)
+            //{
+            //    Debug.Print("ID: {0}\nSender: {1}\nSubject: {2}\nMessage: {3}\n", i.ID, i.sender, i.subject, i.message);
+            //}
         }
     }
 }
