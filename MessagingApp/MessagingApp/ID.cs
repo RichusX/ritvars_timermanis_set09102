@@ -60,7 +60,7 @@ namespace MessagingApp
 
             int largestID = 0;
 
-            foreach (var i in MainWindow.json.messages)
+            foreach (var i in MainWindow.messagesJSON.messages)
             {
                 id = int.Parse(i.ID.Substring(1, 9));
                 id_type = i.ID.Substring(0, 1);

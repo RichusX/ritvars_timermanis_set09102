@@ -35,7 +35,7 @@ namespace MessagingApp
             {
                 
                 bool tweetsExist = false;
-                foreach (var i in MainWindow.json.messages)
+                foreach (var i in MainWindow.messagesJSON.messages)
                 {
                     if (i.ID.StartsWith("T"))
                     {
@@ -57,7 +57,7 @@ namespace MessagingApp
             else if (selection == "SMS") {
                 
                 bool smsExist = false;
-                foreach (var i in MainWindow.json.messages)
+                foreach (var i in MainWindow.messagesJSON.messages)
                 {
                     if (i.ID.StartsWith("S"))
                     {
@@ -80,7 +80,7 @@ namespace MessagingApp
             {
                 
                 bool emailsExist = false;
-                foreach (var i in MainWindow.json.messages)
+                foreach (var i in MainWindow.messagesJSON.messages)
                 {
                     if (i.ID.StartsWith("E"))
                     {
@@ -113,7 +113,7 @@ namespace MessagingApp
             {
                 string selection = IDComboBox.SelectedItem.ToString();
 
-                foreach (var message in MainWindow.json.messages)
+                foreach (var message in MainWindow.messagesJSON.messages)
                 {
                     if (message.ID == selection)
                     {

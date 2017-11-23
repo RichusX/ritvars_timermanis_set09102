@@ -56,8 +56,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Hashtag.cs" />
     <Compile Include="ID.cs" />
     <Compile Include="Message.cs" />
+    <Compile Include="ViewHashtags.xaml.cs">
+      <DependentUpon>ViewHashtags.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewMessages.xaml.cs">
       <DependentUpon>ViewMessages.xaml</DependentUpon>
     </Compile>
@@ -73,6 +77,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ViewHashtags.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ViewMessages.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

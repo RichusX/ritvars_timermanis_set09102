@@ -28,9 +28,12 @@ namespace MessagingApp
         public string body;
         public string subject;
 
-        public static RootObject json = JsonConvert.DeserializeObject<RootObject>(File.ReadAllText(@"messages.json"));
+        public static RootMessageObject messagesJSON;// = JsonConvert.DeserializeObject<RootMessageObject>(File.ReadAllText(@"messages.json"));
+        public static RootHashtagObject hashtagsJSON;// = JsonConvert.DeserializeObject<RootHashtagObject>(File.ReadAllText(@"hashtags.json"));
 
-        public string messagesJSON;
+        public static Dictionary<string, string> textspeakDict = File.ReadLines("data/textspeak.csv").Select(line => line.Split(',')).ToDictionary(line => line[0], line => line[1]);
+
+        //public string messagesJSON;
 
         string headerTwitterPattern = @"^@(\w+)";
         string headerSmsPattern = @"^(((\+44\s?\d{4}|\(?0\d{4}\)?)\s?\d{3}\s?\d{3})|((\+44\s?\d{3}|\(?0\d{3}\)?)\s?\d{3}\s?\d{4})|((\+44\s?\d{2}|\(?0\d{2}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$";
@@ -60,9 +63,11 @@ namespace MessagingApp
                 {
                     // length is between 1 and 140 ( all gucci! )
                     
-                    Message tweet = new Message(ID.newID(ID.getRecent(0)), header, subject, body);
-                    json.messages.Add(tweet);
-                    writeJsonToFile();
+                    Message tweet = new Message(ID.newID(ID.getRecent(0)), header, subject, Message.textspeakConvert(body));
+                    tweet.updateHashtagsFromMessage();
+                    messagesJSON.messages.Add(tweet);
+                    writeMessagesToFile();
+                    writeHashtagsToFile();
                 }
                 else
                 {
@@ -83,9 +88,9 @@ namespace MessagingApp
                 if (body.Length > 0 && body.Length <= 140)
                 {
                     // length is between 1 and 140 ( all gucci! )
-                    Message sms = new Message(ID.newID(ID.getRecent(1)), header, subject, body);
-                    json.messages.Add(sms);
-                    writeJsonToFile();
+                    Message sms = new Message(ID.newID(ID.getRecent(1)), header, subject, Message.textspeakConvert(body));
+                    messagesJSON.messages.Add(sms);
+                    writeMessagesToFile();
                 }
                 else
                 {
@@ -112,8 +117,8 @@ namespace MessagingApp
                         else // Normal email
                         {
                             Message email = new Message(ID.newID(ID.getRecent(2)), header, subject, body);
-                            json.messages.Add(email);
-                            writeJsonToFile();
+                            messagesJSON.messages.Add(email);
+                            writeMessagesToFile();
                         }
 
                     }
@@ -151,6 +156,7 @@ namespace MessagingApp
             {
                 MsgSubjectBox.Visibility = System.Windows.Visibility.Hidden;
                 MsgSubjectLabel.Visibility = System.Windows.Visibility.Hidden;
+                MsgSubjectBox.Clear();
             }
         }
 
@@ -163,15 +169,46 @@ namespace MessagingApp
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            //RootObject json = JsonConvert.DeserializeObject<RootObject>(File.ReadAllText(@"messages.json"));
-            //foreach (var i in json.messages)
-            //{
-            //    Debug.Print("ID: {0}\nSender: {1}\nSubject: {2}\nMessage: {3}\n", i.ID, i.sender, i.subject, i.message);
-            //}
+            Directory.CreateDirectory("data");
+
+            if (File.Exists(@"data/messages.json"))
+            {
+                messagesJSON = JsonConvert.DeserializeObject<RootMessageObject>(File.ReadAllText(@"data/messages.json"));
+            }
+            else
+            {
+                string content = "{\"messages\": []}";
+                File.WriteAllText(@"data/messages.json", content);
+                messagesJSON = JsonConvert.DeserializeObject<RootMessageObject>(File.ReadAllText(@"data/messages.json"));
+            }
+
+            if (File.Exists(@"data/hashtags.json"))
+            {
+                hashtagsJSON = JsonConvert.DeserializeObject<RootHashtagObject>(File.ReadAllText(@"data/hashtags.json"));
+            }
+            else
+            {
+                string content = "{\"hashtags\": []}";
+                File.WriteAllText(@"data/hashtags.json", content);
+                hashtagsJSON = JsonConvert.DeserializeObject<RootHashtagObject>(File.ReadAllText(@"data/hashtags.json"));
+            }
+
+            
+
         }
-        private void writeJsonToFile()
+        private void writeMessagesToFile()
         {
-            File.WriteAllText(@"messages.json", JsonConvert.SerializeObject(json));
+            File.WriteAllText(@"data/messages.json", JsonConvert.SerializeObject(messagesJSON, Formatting.Indented));
+        }
+        private void writeHashtagsToFile()
+        {
+            File.WriteAllText(@"data/hashtags.json", JsonConvert.SerializeObject(hashtagsJSON, Formatting.Indented));
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ViewHashtags viewHashtags = new ViewHashtags();
+            viewHashtags.Show();
         }
     }
 }
