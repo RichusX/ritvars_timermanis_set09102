@@ -59,6 +59,7 @@
     <Compile Include="Hashtag.cs" />
     <Compile Include="ID.cs" />
     <Compile Include="Message.cs" />
+    <Compile Include="SIR.cs" />
     <Compile Include="ViewHashtags.xaml.cs">
       <DependentUpon>ViewHashtags.xaml</DependentUpon>
     </Compile>

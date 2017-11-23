@@ -30,6 +30,7 @@ namespace MessagingApp
 
         public static RootMessageObject messagesJSON;// = JsonConvert.DeserializeObject<RootMessageObject>(File.ReadAllText(@"messages.json"));
         public static RootHashtagObject hashtagsJSON;// = JsonConvert.DeserializeObject<RootHashtagObject>(File.ReadAllText(@"hashtags.json"));
+        public static RootSirObject sirJSON;
 
         public static Dictionary<string, string> textspeakDict = File.ReadLines("data/textspeak.csv").Select(line => line.Split(',')).ToDictionary(line => line[0], line => line[1]);
 
@@ -113,6 +114,10 @@ namespace MessagingApp
                         if (subject.StartsWith("SIR")) // Check if SIR email
                         {
                             MessageBox.Show("That's an SIR email!");
+                            Message email = new Message(ID.newID(ID.getRecent(2)), header, subject, Message.quarantineURL(body));
+                            SIR sir = new SIR(subject, ); // Left off here
+                            messagesJSON.messages.Add(email);
+                            writeMessagesToFile();
                         }
                         else // Normal email
                         {
@@ -193,7 +198,18 @@ namespace MessagingApp
                 hashtagsJSON = JsonConvert.DeserializeObject<RootHashtagObject>(File.ReadAllText(@"data/hashtags.json"));
             }
 
-            
+            if (File.Exists(@"data/SIR.json"))
+            {
+                sirJSON = JsonConvert.DeserializeObject<RootSirObject>(File.ReadAllText(@"data/SIR.json"));
+            }
+            else
+            {
+                string content = "{\"SIR\": []}";
+                File.WriteAllText(@"data/SIR.json", content);
+                sirJSON = JsonConvert.DeserializeObject<RootSirObject>(File.ReadAllText(@"data/SIR.json"));
+            }
+
+
 
         }
         private void writeMessagesToFile()
@@ -203,6 +219,11 @@ namespace MessagingApp
         private void writeHashtagsToFile()
         {
             File.WriteAllText(@"data/hashtags.json", JsonConvert.SerializeObject(hashtagsJSON, Formatting.Indented));
+        }
+
+        private void writeSirToFile()
+        {
+            File.WriteAllText(@"data/SIR.json", JsonConvert.SerializeObject(sirJSON, Formatting.Indented));
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
