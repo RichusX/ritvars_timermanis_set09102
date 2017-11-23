@@ -116,7 +116,7 @@ namespace MessagingApp
                         }
                         else // Normal email
                         {
-                            Message email = new Message(ID.newID(ID.getRecent(2)), header, subject, body);
+                            Message email = new Message(ID.newID(ID.getRecent(2)), header, subject, Message.quarantineURL(body));
                             messagesJSON.messages.Add(email);
                             writeMessagesToFile();
                         }

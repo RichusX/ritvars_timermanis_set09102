@@ -94,6 +94,18 @@ namespace MessagingApp
             }
             return result;
         }
+
+        public static string quarantineURL(string _message)
+        {
+            string result = _message;
+
+            string pattern = @"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})";
+            string replace = "<URL Quarantined>";
+
+            result = Regex.Replace(result, pattern, replace, RegexOptions.IgnoreCase);
+
+            return result;
+        }
     }
 
     public class RootMessageObject
